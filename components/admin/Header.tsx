@@ -17,7 +17,7 @@ const Header = () => {
   return (
     <div
       className={cn("sticky inset-x-0 top-0 z-30 w-full transition-all", {
-        "border-b backdrop-blur-lg opacity-80": scrolled,
+        "border-b ": scrolled,
         "border-b": selectedLayout,
       })}
     >
