@@ -11,6 +11,7 @@ import {
 
 import { SIDENAV_ITEMS } from "@/constants";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const SideNav = () => {
   const pathname = usePathname();
@@ -19,9 +20,10 @@ const SideNav = () => {
       <div className="flex flex-col space-y-6 w-full">
         <Link
           href="/"
-          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 h-12 w-full"
+          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b w-full"
         >
-          <span className="font-bold text-xl hidden md:flex">Logo</span>
+          <Image src={"/logo.png"} alt="Logo" width={40} height={40} />
+          <span className="font-bold text-xl hidden md:flex">Swadesi Cart</span>
         </Link>
 
         <div className="flex flex-col md:px-6">
@@ -29,6 +31,7 @@ const SideNav = () => {
             {SIDENAV_ITEMS.map((item, idx) => {
               return !item.submenu ? (
                 <Link
+                  key={idx}
                   href={item.path}
                   className={`flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background ${
                     item.path === pathname ? "bg-background" : ""

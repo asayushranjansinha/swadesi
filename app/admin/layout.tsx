@@ -11,7 +11,9 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
         <div className="flex flex-col md:ml-60 sm:border-r sm:border-zinc-700 min-h-screen">
           <Header />
           <HeaderMobile />
-          {children}
+          <div className="flex flex-col p-4 space-y-2 flex-grow">
+            {children}
+          </div>
         </div>
       </main>
     </div>
