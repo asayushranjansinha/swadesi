@@ -10,7 +10,16 @@ export type SideNavItem = {
 
 export interface DoughnutChartProps {
     data: ChartData<'doughnut'>;
-    options: ChartOptions<"doughnut">;
+    options?: ChartOptions<"doughnut">;
+}
+export interface PolarChartProps {
+    data: ChartData<'polarArea'>;
+    options?: ChartOptions<"polarArea">;
+}
+
+export interface BarChartProps {
+    data: ChartData<'bar'>;
+    options: ChartOptions<'bar'>;
 }
 
 export interface WidgetDataProps<T extends 'bar' | 'doughnut' | 'line' | 'pie'> {

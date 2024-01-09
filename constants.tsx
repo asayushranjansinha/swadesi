@@ -16,12 +16,8 @@ export const SIDENAV_ITEMS: SideNavItem[] = [
     subMenuItems: [
       { title: 'Dashboard', path: '/admin' },
       { title: 'Analytics', path: '/admin/analytics' },
+      { title: 'Products', path: '/admin/products' },
     ],
-  },
-  {
-    title: 'Products',
-    path: '/products',
-    icon: <Icon icon="lucide:store" width="24" height="24" />,
   },
   {
     title: 'Settings',

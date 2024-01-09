@@ -34,11 +34,11 @@ function DoughnutChart({ data, options }: DoughnutChartProps) {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-      ...options.plugins,
+      ...options?.plugins,
       legend: {
-        ...options.plugins?.legend,
+        ...options?.plugins?.legend,
         labels: {
-          ...options.plugins?.legend?.labels,
+          ...options?.plugins?.legend?.labels,
           color: theme === "light" ? "#000" : "#FFF",
         },
       },
