@@ -6,7 +6,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { SIDENAV_ITEMS } from "@/constants";
+import { SIDE_NAVIGATION_ITEMS } from "@/constants";
 import { motion, useCycle } from "framer-motion";
 
 import {
@@ -15,9 +15,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Separator } from "@/components/ui/separator";
 
+import { SideNavigation } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { ModeToggle } from "../ui/mode-toggle";
 
 const HeaderMobile = () => {
   const pathname = usePathname();
@@ -44,67 +46,13 @@ const HeaderMobile = () => {
         className="absolute grid w-full gap-3 px-10 py-16"
       >
         <Accordion type="single" collapsible className="w-full space-y-4">
-          {SIDENAV_ITEMS.map((item, idx) => {
-            const isLastItem = idx === SIDENAV_ITEMS.length - 1; // Check if it's the last item
-
-            return (
-              <div key={idx}>
-                {item.submenu ? (
-                  <motion.li variants={MenuItemVariants}>
-                    <AccordionItem value={item.title} key={idx}>
-                      <AccordionTrigger
-                        className={cn(
-                          "p-2 rounded-lg hover:bg-background transition-colors duration-300",
-                          item.path === pathname ? "bg-background" : ""
-                        )}
-                      >
-                        <div className="w-full flex space-x-4 items-center">
-                          {item.icon}
-                          <span className="font-semibold text-xl">
-                            {item.title}
-                          </span>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <ul className="w-full flex flex-col space-y-4 my-2 ml-12">
-                          {item.subMenuItems?.map((subItem, idx) => {
-                            return (
-                              <li key={idx}>
-                                <Link
-                                  href={subItem.path}
-                                  className={`${
-                                    subItem.path === pathname ? "font-bold" : ""
-                                  }`}
-                                >
-                                  <span>{subItem.title}</span>
-                                </Link>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </motion.li>
-                ) : (
-                  <motion.li variants={MenuItemVariants}>
-                    <Link
-                      href={item.path}
-                      className={`flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background ${
-                        item.path === pathname ? "bg-background" : ""
-                      }`}
-                    >
-                      {item.icon}
-                      <span className="font-semibold text-xl flex">
-                        {item.title}
-                      </span>
-                    </Link>
-                    {!isLastItem && <Separator />}
-                  </motion.li>
-                )}
-              </div>
-            );
-          })}
+          {SIDE_NAVIGATION_ITEMS.map((item, idx) => (
+            <NavigationItem idx={idx} item={item} />
+          ))}
         </Accordion>
+        <motion.li variants={MenuItemVariants}>
+          <ModeToggle />
+        </motion.li>
       </motion.ul>
 
       <MenuToggle toggle={toggleOpen} />
@@ -117,7 +65,7 @@ export default HeaderMobile;
 /* ******************************** ANIMATED TOGGLE BUTTON ******************************* */
 const MenuToggle = ({ toggle }: { toggle: any }) => {
   const { theme } = useTheme();
-  const stroke = theme === "light" ? "hsl(0, 0%, 0%)" : "hsl(0,0%,100%)";
+  const stroke = theme === "light" ? "#000" : "#FFF";
   return (
     <button
       onClick={toggle}
@@ -221,3 +169,83 @@ const MenuItemVariants = {
     },
   },
 };
+
+type NavigationItemProps = {
+  item: SideNavigation;
+  idx: any;
+};
+function NavigationItem({ item, idx }: NavigationItemProps) {
+  const pathname = usePathname();
+  switch (item.submenu) {
+    case true:
+      // Render submenu logic
+      return (
+        <motion.li variants={MenuItemVariants}>
+          <AccordionItem value={item.title} key={idx}>
+            <AccordionTrigger
+              className={cn(
+                "p-2 rounded-lg hover:bg-background transition-colors duration-300",
+                item.path === pathname ? "bg-background" : ""
+              )}
+            >
+              <div className="w-full flex space-x-4 items-center">
+                {item.element}
+                <span className="font-semibold text-xl">{item.title}</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent>
+              <ul className="w-full flex flex-col space-y-4 my-2 ml-12">
+                {item.subMenuItems?.map((subItem, idx) => {
+                  return (
+                    <li key={idx}>
+                      <Link
+                        href={subItem.path!}
+                        className={`${
+                          subItem.path === pathname ? "font-bold" : ""
+                        }`}
+                      >
+                        <span>{subItem.title}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+        </motion.li>
+      );
+    case false:
+      // Render regular item logic
+      switch (item.type) {
+        case "link":
+          return (
+            <motion.li variants={MenuItemVariants}>
+              <Link
+                href={item.path!}
+                className={`flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background ${
+                  item.path === pathname ? "bg-background" : ""
+                }`}
+              >
+                {item.element}
+                <span className="font-semibold text-xl flex">{item.title}</span>
+              </Link>
+            </motion.li>
+          );
+        case "button":
+          return (
+            <Button
+              key={idx}
+              variant="ghost"
+              size="lg"
+              className={`w-full flex justify-start rounded-lg hover:bg-transparent pl-0`}
+            >
+              {item.element}
+            </Button>
+          );
+        default:
+          return null;
+      }
+    default:
+      return null;
+  }
+}

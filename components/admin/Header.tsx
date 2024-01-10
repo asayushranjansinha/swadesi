@@ -1,14 +1,11 @@
 "use client";
 
-import React from "react";
 
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 import useScroll from "@/hooks/use-scroll";
-import { useSelectedLayoutSegment } from "next/navigation";
-import { ModeToggle } from "../ui/mode-toggle";
 import Image from "next/image";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 const Header = () => {
   const scrolled = useScroll(5);
@@ -16,7 +13,7 @@ const Header = () => {
 
   return (
     <div
-      className={cn("sticky inset-x-0 top-0 z-30 w-full transition-all", {
+      className={cn("sticky inset-x-0 top-0 z-30 w-full transition-all bg-background", {
         "border-b ": scrolled,
         "border-b": selectedLayout,
       })}
@@ -29,8 +26,6 @@ const Header = () => {
           height={40}
           className="md:hidden"
         />
-
-        <ModeToggle />
 
         <div className="hidden md:block">
           <div className="h-8 w-8 rounded-full bg-zinc-300 flex items-center justify-center text-center">

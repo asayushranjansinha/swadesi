@@ -43,7 +43,7 @@ function page() {
   }
 
   return (
-    <>
+    <div className="w-full !overflow-hidden">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Our Products</h1>
         <Button onClick={() => testmodal.onOpen()}>
@@ -57,7 +57,7 @@ function page() {
         showFilters
         filterWith={["id", "stock", "price", "name"]}
       />
-    </>
+    </div>
   );
 }
 
