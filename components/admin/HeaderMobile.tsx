@@ -1,25 +1,26 @@
 "use client";
 // React and Next.js
-import React, { useEffect, useRef } from "react";
-import Image from "next/image";
+import { motion, useCycle } from "framer-motion";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { motion, useCycle } from "framer-motion";
+import { useEffect, useRef } from "react";
 
-// Accordion Components
+// UI Components
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 
 // Icon
 import { Icon } from "@iconify/react";
 
 // Constants and Utilities
 import { SIDE_NAVIGATION_ITEMS } from "@/constants";
+import { useSignin } from "@/hooks/use-signin";
 import { useUserStore } from "@/hooks/userStore";
 import { SideNavigation } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -59,6 +60,7 @@ export default HeaderMobile;
 function NavigationContainer() {
   // Access user data using custom hook
   const { user } = useUserStore();
+  const { onOpen } = useSignin();
 
   return (
     <motion.ul
@@ -74,15 +76,14 @@ function NavigationContainer() {
       {/* Auth links */}
       <motion.li variants={MenuItemVariants}>
         {!user && (
-          <Link
-            href="/signup"
-            className={cn(
-              "flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background transition-colors duration-300"
-            )}
+          <Button
+            variant={"ghost"}
+            className="w-full space-x-2 hover:bg-transparent"
+            onClick={onOpen}
           >
             <Icon icon="uil:signin" rotate={2} width="24" height="24" />
-            <span className="font-semibold text-xl flex">SignUp</span>
-          </Link>
+            <span className="font-semibold text-xl flex">SignIn</span>
+          </Button>
         )}
       </motion.li>
     </motion.ul>

@@ -18,6 +18,9 @@ import { SIDE_NAVIGATION_ITEMS } from "@/constants";
 import { useUserStore } from "@/hooks/userStore";
 import { SideNavigation } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { useSignin } from "@/hooks/use-signin";
+// import { useAuth } from "@/hooks/use-signin";
 
 function SideNav() {
   return (
@@ -48,6 +51,7 @@ function NavHeader() {
 
 function NavContainer() {
   const { user } = useUserStore();
+  const { onOpen } = useSignin();
   return (
     <Accordion
       type="single"
@@ -60,15 +64,14 @@ function NavContainer() {
 
       {/* Auth Links */}
       {!user && (
-        <Link
-          href="/signup"
-          className={cn(
-            "flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background transition-colors duration-300"
-          )}
+        <Button
+          variant={"ghost"}
+          className="w-full space-x-2 hover:bg-transparent"
+          onClick={onOpen}
         >
           <Icon icon="uil:signin" rotate={2} width="24" height="24" />
-          <span className="font-semibold text-xl flex">SignUp</span>
-        </Link>
+          <span className="font-semibold text-xl flex">SignIn</span>
+        </Button>
       )}
     </Accordion>
   );
