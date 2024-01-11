@@ -5,6 +5,8 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import Header from "@/components/shared/Header";
+import HeaderMobile from "@/components/admin/HeaderMobile";
 
 const font = Nunito({ subsets: ["latin"] });
 
@@ -29,7 +31,9 @@ export default function RootLayout({
         >
           <ModalProvider />
           <Toaster />
-          {children}
+          <Header />
+          <HeaderMobile />
+          <div className="container mx-auto py-2 px-4 mt-16">{children}</div>
         </ThemeProvider>
       </body>
     </html>
