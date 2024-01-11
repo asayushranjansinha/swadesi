@@ -24,10 +24,11 @@ export interface WidgetDataProps<T extends 'bar' | 'doughnut' | 'line' | 'pie'> 
 }
 
 export type SideNavigation = {
-    type: 'link' | 'button'
+    type?: 'link' | undefined;
     title: string;
     path?: string;
     element?: JSX.Element;
     submenu?: boolean;
     subMenuItems?: SideNavigation[];
-}
+    userRole?: 'admin';
+};

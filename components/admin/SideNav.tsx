@@ -11,60 +11,91 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
+import { Icon } from "@iconify/react";
 
 // Constants and Utilities
 import { SIDE_NAVIGATION_ITEMS } from "@/constants";
+import { useUserStore } from "@/hooks/userStore";
+import { SideNavigation } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-// Custom Types
-import { SideNavigation } from "@/lib/types";
-import { ModeToggle } from "../ui/mode-toggle";
-
-const SideNav = () => {
+function SideNav() {
   return (
-    <aside className="hidden md:flex md:w-60 h-screen flex-1 fixed border-r bg-secondary">
-      <div className="flex flex-col space-y-6 w-full relative">
-        <Link
-          href="/"
-          className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b w-full"
-        >
-          <Image src={"/logo.png"} alt="Logo" width={40} height={40} />
-          <span className="font-bold text-xl hidden md:flex">Swadesi Cart</span>
-        </Link>
-
-        <div className="flex flex-col md:px-6">
-          <Accordion type="single" collapsible className="w-full space-y-4">
-            {SIDE_NAVIGATION_ITEMS.map((item, idx) => (
-              <NavigationItem idx={idx} item={item} />
-            ))}
-          </Accordion>
-        </div>
-        <div className="w-full absolute bottom-2 px-6">
-          <ModeToggle />
-        </div>
-      </div>
+    <aside className="hidden md:block md:w-60 min-h-full fixed border-r bg-secondary">
+      {/* SideNav Header and logo */}
+      <NavHeader />
+      {/* main content */}
+      <NavContainer />
     </aside>
   );
-};
+}
 
 export default SideNav;
 
+function NavHeader() {
+  return (
+    <Link
+      href="/"
+      className="flex flex-row space-x-3 items-center justify-center md:justify-normal md:px-6 md:py-2 border-b w-full"
+    >
+      <Image src={"/logo.png"} alt="Company Logo" width={40} height={40} />
+      <span className="text-xl font-semibold hidden md:block">
+        Swadesi Cart
+      </span>
+    </Link>
+  );
+}
+
+function NavContainer() {
+  const { user } = useUserStore();
+  return (
+    <Accordion
+      type="single"
+      collapsible
+      className="flex flex-col w-full space-y-4 px-6"
+    >
+      {SIDE_NAVIGATION_ITEMS.map((item, index) => (
+        <NavigationItem item={item} key={index} />
+      ))}
+
+      {/* Auth Links */}
+      {!user && (
+        <Link
+          href="/signup"
+          className={cn(
+            "flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background transition-colors duration-300"
+          )}
+        >
+          <Icon icon="uil:signin" rotate={2} width="24" height="24" />
+          <span className="font-semibold text-xl flex">SignUp</span>
+        </Link>
+      )}
+    </Accordion>
+  );
+}
+
 type NavigationItemProps = {
   item: SideNavigation;
-  idx: any;
 };
-function NavigationItem({ item, idx }: NavigationItemProps) {
+
+function NavigationItem({ item }: NavigationItemProps) {
+  const { user } = useUserStore();
+
   const pathname = usePathname();
+
+  if (item?.userRole && item?.userRole !== user?.role) return null;
   switch (item.submenu) {
     case true:
-      // Render submenu logic
       return (
-        <AccordionItem value={item.title} key={idx}>
+        <AccordionItem
+          value={item.title}
+          className="my-2
+        "
+        >
           <AccordionTrigger
             className={cn(
               "p-2 rounded-lg hover:bg-background transition-colors duration-300",
-              item.path === pathname ? "bg-background" : ""
+              pathname.includes(item.path!) ? "bg-background/50" : ""
             )}
           >
             <div className="w-full flex space-x-4 items-center">
@@ -72,57 +103,38 @@ function NavigationItem({ item, idx }: NavigationItemProps) {
               <span className="font-semibold text-xl">{item.title}</span>
             </div>
           </AccordionTrigger>
-          <AccordionContent>
-            <ul className="w-full flex flex-col space-y-4 my-2 ml-12">
-              {item.subMenuItems?.map((subItem, idx) => {
-                return (
-                  <li key={idx}>
-                    <Link
-                      href={subItem.path!}
-                      className={`${
-                        subItem.path === pathname ? "font-bold" : ""
-                      }`}
-                    >
-                      <span>{subItem.title}</span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+
+          <AccordionContent className="ml-10 space-y-2 my-2 list-none">
+            {item.subMenuItems?.map((subItem, index) => (
+              <li key={index}>
+                <Link
+                  href={subItem.path!}
+                  className={`${subItem.path === pathname ? "font-bold" : ""}`}
+                >
+                  <span>{subItem.title}</span>
+                </Link>
+              </li>
+            ))}
           </AccordionContent>
         </AccordionItem>
       );
-    case false:
-      // Render regular item logic
+    default:
       switch (item.type) {
         case "link":
           return (
             <Link
-              key={idx}
               href={item.path!}
-              className={`flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background ${
-                item.path === pathname ? "bg-background" : ""
-              }`}
+              className={cn(
+                "flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background transition-colors duration-300",
+                item.path === pathname ? "bg-background/50" : ""
+              )}
             >
               {item.element}
               <span className="font-semibold text-xl flex">{item.title}</span>
             </Link>
           );
-        case "popover":
-          return (
-            <Button
-              key={idx}
-              variant="ghost"
-              size="lg"
-              className={`w-full flex justify-start rounded-lg hover:bg-transparent pl-0`}
-            >
-              {item.element}
-            </Button>
-          );
         default:
-          return null;
+          return <>{item.element}</>;
       }
-    default:
-      return null;
   }
 }

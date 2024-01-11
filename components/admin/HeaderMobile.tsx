@@ -1,14 +1,13 @@
 "use client";
-
-import { useTheme } from "next-themes";
-import { useEffect, useRef } from "react";
-
+// React and Next.js
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-import { SIDE_NAVIGATION_ITEMS } from "@/constants";
+import { useTheme } from "next-themes";
 import { motion, useCycle } from "framer-motion";
 
+// Accordion Components
 import {
   Accordion,
   AccordionContent,
@@ -16,15 +15,23 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
+// Icon
+import { Icon } from "@iconify/react";
+
+// Constants and Utilities
+import { SIDE_NAVIGATION_ITEMS } from "@/constants";
+import { useUserStore } from "@/hooks/userStore";
 import { SideNavigation } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { ModeToggle } from "../ui/mode-toggle";
 
-const HeaderMobile = () => {
-  const pathname = usePathname();
+function HeaderMobile() {
+  // Ref for the container element
   const containerRef = useRef(null);
+
+  // Calculate the height using a custom hook (useDimensions)
   const { height } = useDimensions(containerRef);
+
+  // Toggle state for opening and closing
   const [isOpen, toggleOpen] = useCycle(false, true);
 
   return (
@@ -41,28 +48,117 @@ const HeaderMobile = () => {
         className="absolute inset-0 right-0 w-full bg-secondary"
         variants={ContainerCircularDropdown}
       />
-      <motion.ul
-        variants={variants}
-        className="absolute grid w-full gap-3 px-10 py-16"
-      >
-        <Accordion type="single" collapsible className="w-full space-y-4">
-          {SIDE_NAVIGATION_ITEMS.map((item, idx) => (
-            <NavigationItem idx={idx} item={item} />
-          ))}
-        </Accordion>
-        <motion.li variants={MenuItemVariants}>
-          <ModeToggle />
-        </motion.li>
-      </motion.ul>
-
+      <NavigationContainer />
       <MenuToggle toggle={toggleOpen} />
     </motion.nav>
   );
-};
+}
 
 export default HeaderMobile;
 
-/* ******************************** ANIMATED TOGGLE BUTTON ******************************* */
+function NavigationContainer() {
+  // Access user data using custom hook
+  const { user } = useUserStore();
+
+  return (
+    <motion.ul
+      variants={variants}
+      className="absolute grid w-full gap-3 px-10 py-16"
+    >
+      <Accordion type="single" collapsible className="w-full space-y-4">
+        {SIDE_NAVIGATION_ITEMS.map((item, idx) => (
+          <NavigationItem key={idx} item={item} />
+        ))}
+      </Accordion>
+
+      {/* Auth links */}
+      <motion.li variants={MenuItemVariants}>
+        {!user && (
+          <Link
+            href="/signup"
+            className={cn(
+              "flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background transition-colors duration-300"
+            )}
+          >
+            <Icon icon="uil:signin" rotate={2} width="24" height="24" />
+            <span className="font-semibold text-xl flex">SignUp</span>
+          </Link>
+        )}
+      </motion.li>
+    </motion.ul>
+  );
+}
+type NavigationItemProps = {
+  item: SideNavigation;
+};
+function NavigationItem({ item }: NavigationItemProps) {
+  const { user } = useUserStore();
+  const pathname = usePathname();
+
+  if (item?.userRole && item?.userRole !== user?.role) return null;
+  switch (item.submenu) {
+    case true:
+      return (
+        <motion.li variants={MenuItemVariants}>
+          <AccordionItem
+            value={item.title}
+            className="my-2
+        "
+          >
+            <AccordionTrigger
+              className={cn(
+                "p-2 rounded-lg hover:bg-background transition-colors duration-300",
+                pathname.includes(item.path!) ? "bg-background/50" : ""
+              )}
+            >
+              <div className="w-full flex space-x-4 items-center">
+                {item.element}
+                <span className="font-semibold text-xl">{item.title}</span>
+              </div>
+            </AccordionTrigger>
+
+            <AccordionContent className="ml-10 space-y-2 my-2 list-none">
+              {item.subMenuItems?.map((subItem, index) => (
+                <li key={index}>
+                  <Link
+                    href={subItem.path!}
+                    className={`${
+                      subItem.path === pathname ? "font-bold" : ""
+                    }`}
+                  >
+                    <span>{subItem.title}</span>
+                  </Link>
+                </li>
+              ))}
+            </AccordionContent>
+          </AccordionItem>
+        </motion.li>
+      );
+    default:
+      switch (item.type) {
+        case "link":
+          return (
+            <motion.li variants={MenuItemVariants}>
+              <Link
+                href={item.path!}
+                className={cn(
+                  "flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background transition-colors duration-300",
+                  item.path === pathname ? "bg-background/50" : ""
+                )}
+              >
+                {item.element}
+                <span className="font-semibold text-xl flex">{item.title}</span>
+              </Link>
+            </motion.li>
+          );
+        default:
+          return (
+            <motion.li variants={MenuItemVariants}>{item.element}</motion.li>
+          );
+      }
+  }
+}
+
 const MenuToggle = ({ toggle }: { toggle: any }) => {
   const { theme } = useTheme();
   const stroke = theme === "light" ? "#000" : "#FFF";
@@ -100,16 +196,7 @@ const MenuToggle = ({ toggle }: { toggle: any }) => {
   );
 };
 
-const Path = (props: any) => (
-  <motion.path
-    fill="transparent"
-    strokeWidth="2"
-    strokeLinecap="round"
-    {...props}
-  />
-);
-
-/* ******************************** ANIMATION HOOKS ******************************* */
+/* ******************************** ANIMATION ******************************* */
 const useDimensions = (ref: any) => {
   const dimensions = useRef({ width: 0, height: 0 });
 
@@ -119,11 +206,18 @@ const useDimensions = (ref: any) => {
       dimensions.current.height = ref.current.offsetHeight;
     }
   }, [ref]);
-
   return dimensions.current;
 };
 
-/* ******************************** ANIMATION VARIANTS ******************************* */
+const Path = (props: any) => (
+  <motion.path
+    fill="transparent"
+    strokeWidth="2"
+    strokeLinecap="round"
+    {...props}
+  />
+);
+
 const variants = {
   open: {
     transition: { staggerChildren: 0.02, delayChildren: 0.15 },
@@ -169,83 +263,3 @@ const MenuItemVariants = {
     },
   },
 };
-
-type NavigationItemProps = {
-  item: SideNavigation;
-  idx: any;
-};
-function NavigationItem({ item, idx }: NavigationItemProps) {
-  const pathname = usePathname();
-  switch (item.submenu) {
-    case true:
-      // Render submenu logic
-      return (
-        <motion.li variants={MenuItemVariants}>
-          <AccordionItem value={item.title} key={idx}>
-            <AccordionTrigger
-              className={cn(
-                "p-2 rounded-lg hover:bg-background transition-colors duration-300",
-                item.path === pathname ? "bg-background" : ""
-              )}
-            >
-              <div className="w-full flex space-x-4 items-center">
-                {item.element}
-                <span className="font-semibold text-xl">{item.title}</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent>
-              <ul className="w-full flex flex-col space-y-4 my-2 ml-12">
-                {item.subMenuItems?.map((subItem, idx) => {
-                  return (
-                    <li key={idx}>
-                      <Link
-                        href={subItem.path!}
-                        className={`${
-                          subItem.path === pathname ? "font-bold" : ""
-                        }`}
-                      >
-                        <span>{subItem.title}</span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </AccordionContent>
-          </AccordionItem>
-        </motion.li>
-      );
-    case false:
-      // Render regular item logic
-      switch (item.type) {
-        case "link":
-          return (
-            <motion.li variants={MenuItemVariants}>
-              <Link
-                href={item.path!}
-                className={`flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background ${
-                  item.path === pathname ? "bg-background" : ""
-                }`}
-              >
-                {item.element}
-                <span className="font-semibold text-xl flex">{item.title}</span>
-              </Link>
-            </motion.li>
-          );
-        case "button":
-          return (
-            <Button
-              key={idx}
-              variant="ghost"
-              size="lg"
-              className={`w-full flex justify-start rounded-lg hover:bg-transparent pl-0`}
-            >
-              {item.element}
-            </Button>
-          );
-        default:
-          return null;
-      }
-    default:
-      return null;
-  }
-}
