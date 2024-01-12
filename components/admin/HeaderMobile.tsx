@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { Sling as Hamburger } from "hamburger-react";
 
 // Icon
 import { Icon } from "@iconify/react";
@@ -51,7 +52,7 @@ function HeaderMobile() {
         variants={ContainerCircularDropdown}
       />
       <NavigationContainer />
-      <MenuToggle toggle={toggleOpen} />
+      <MenuToggle toggle={toggleOpen} isOpen={isOpen} />
     </motion.nav>
   );
 }
@@ -164,39 +165,15 @@ function NavigationItem({ item }: NavigationItemProps) {
   }
 }
 
-const MenuToggle = ({ toggle }: { toggle: any }) => {
+const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
   const { theme } = useTheme();
-  const stroke = theme === "light" ? "black" : "white";
+  const color = theme === "light" ? "black" : "white";
   return (
     <button
       onClick={toggle}
-      className="pointer-events-auto absolute right-4 top-5 z-30"
+      className="pointer-events-auto absolute right-4 top-2 z-30"
     >
-      <svg width="23" height="23" viewBox="0 0 23 23">
-        <Path
-          variants={{
-            closed: { d: "M 2 2.5 L 20 2.5" },
-            open: { d: "M 3 16.5 L 17 2.5" },
-          }}
-          stroke={stroke}
-        />
-        <Path
-          d="M 2 9.423 L 20 9.423"
-          variants={{
-            closed: { opacity: 1 },
-            open: { opacity: 0 },
-          }}
-          transition={{ duration: 0.1 }}
-          stroke={stroke}
-        />
-        <Path
-          variants={{
-            closed: { d: "M 2 16.346 L 20 16.346" },
-            open: { d: "M 3 2.5 L 17 16.346" },
-          }}
-          stroke={stroke}
-        />
-      </svg>
+      <Hamburger size={28} color={color} />
     </button>
   );
 };
@@ -213,15 +190,6 @@ const useDimensions = (ref: any) => {
   }, [ref]);
   return dimensions.current;
 };
-
-const Path = (props: any) => (
-  <motion.path
-    fill="transparent"
-    strokeWidth="2"
-    strokeLinecap="round"
-    {...props}
-  />
-);
 
 const variants = {
   open: {
