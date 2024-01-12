@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 
 function Header() {
   return (
-    <header className="fixed inset-x-0 top-0 border-b bg-background z-[99999]">
+    <header className="fixed inset-x-0 top-0 border-b bg-background z-30">
       {/* header container */}
       <div className="container mx-auto py-2 px-4 flex items-center space-x-4">
         <Logo />

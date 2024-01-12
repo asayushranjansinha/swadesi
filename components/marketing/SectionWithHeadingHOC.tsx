@@ -4,9 +4,9 @@ interface WithTitleProps {
   title: string;
 }
 
-function withTitle<P>(
+function SectionWithHeadingHOC<P>(
   WrappedComponent: React.ComponentType<P>,
-  defaultTitle: string = "Featured"
+  defaultTitle: string
 ) {
   return function WithTitleWrapper(props: P & WithTitleProps) {
     return (
@@ -20,4 +20,4 @@ function withTitle<P>(
   };
 }
 
-export default withTitle;
+export default SectionWithHeadingHOC;

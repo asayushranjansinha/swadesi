@@ -24,6 +24,7 @@ import { useSignin } from "@/hooks/use-signin";
 import { useUserStore } from "@/hooks/userStore";
 import { SideNavigation } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { ModeToggle } from "../ui/mode-toggle";
 
 function HeaderMobile() {
   // Ref for the container element
@@ -46,7 +47,7 @@ function HeaderMobile() {
       ref={containerRef}
     >
       <motion.div
-        className="absolute inset-0 right-0 w-full bg-secondary"
+        className="absolute inset-0 right-0 w-full bg-primary/80 dark:bg-background/90"
         variants={ContainerCircularDropdown}
       />
       <NavigationContainer />
@@ -73,7 +74,7 @@ function NavigationContainer() {
         ))}
       </Accordion>
 
-      {/* Auth links */}
+      {/* Theme Change */}
       <motion.li variants={MenuItemVariants}>
         {!user && (
           <Button
@@ -85,6 +86,9 @@ function NavigationContainer() {
             <span className="font-semibold text-xl flex">SignIn</span>
           </Button>
         )}
+      </motion.li>
+      <motion.li variants={MenuItemVariants}>
+        <ModeToggle />
       </motion.li>
     </motion.ul>
   );
@@ -162,7 +166,7 @@ function NavigationItem({ item }: NavigationItemProps) {
 
 const MenuToggle = ({ toggle }: { toggle: any }) => {
   const { theme } = useTheme();
-  const stroke = theme === "light" ? "#000" : "#FFF";
+  const stroke = theme === "light" ? "black" : "white";
   return (
     <button
       onClick={toggle}

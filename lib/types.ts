@@ -32,3 +32,35 @@ export type SideNavigation = {
     subMenuItems?: SideNavigation[];
     userRole?: 'admin';
 };
+
+export interface FeaturedProductItem {
+    name: string;
+    description: string;
+    imageUrl: string;
+    currentPrice: number;
+    orgPrice: number
+}
+
+export enum ProductCategory {
+    Electronics = "Electronics",
+    HomeAndKitchen = "Home & Kitchen",
+    Clothing = "Clothing",
+    Beauty = "Beauty",
+}
+export enum ProductSize {
+    Small = "Small",
+    Medium = "Medium",
+    Large = "Large",
+    XLarge = "X-Large",
+    XXLarge = "XX-Large",
+    XXXLarge = "XXX-Large",
+  }
+
+export interface ProductItem {
+    name: string;
+    description: string;
+    images: string[];
+    price: number;
+    sizes?: ProductSize[]
+    category?: ProductCategory;
+}

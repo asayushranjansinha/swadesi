@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 
-export function HeroCarousel() {
+export default function HeroCarousel() {
   return (
     <div className="w-full max-h-[40vh]">
       <Carousel

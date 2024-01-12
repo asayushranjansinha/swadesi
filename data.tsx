@@ -1,5 +1,12 @@
 import { ChartData, ChartOptions } from "chart.js";
-import { BarChartProps, WidgetDataProps } from "./lib/types";
+import {
+  BarChartProps,
+  FeaturedProductItem,
+  ProductCategory,
+  ProductItem,
+  ProductSize,
+  WidgetDataProps,
+} from "./lib/types";
 import { changeInPercentage } from "./lib/utils";
 
 export const revenueWidgetData: WidgetDataProps<"doughnut"> = {
@@ -340,3 +347,69 @@ export const SalesDistributionChartOptions: ChartOptions<"polarArea"> = {
   },
   plugins: {},
 };
+
+export const dealOfTheDayProduct: ProductItem = {
+  name: "Film Camera",
+  description:
+    "Capture memories with our classic film camera. A perfect blend of nostalgia and artistry.",
+  images: [
+    "https://images.pexels.com/photos/5001553/pexels-photo-5001553.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/4889279/pexels-photo-4889279.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/2335048/pexels-photo-2335048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/2925312/pexels-photo-2925312.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    "https://images.pexels.com/photos/66134/pexels-photo-66134.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+  ],
+  price: 99.99,
+  sizes: [
+    ProductSize.Medium,
+    ProductSize.Small,
+    ProductSize.Large,
+    ProductSize.XLarge,
+  ],
+  category: ProductCategory.Electronics,
+};
+
+export const FeaturedProductList: FeaturedProductItem[] = [
+  {
+    name: "Smart Home Security Camera",
+    description:
+      "Enhance home security with our high-definition, wireless camera featuring motion detection and two-way audio.",
+    imageUrl:
+      "https://images.pexels.com/photos/5966513/pexels-photo-5966513.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    currentPrice: 2999,
+    orgPrice: 3999,
+  },
+  {
+    name: "Organic Matcha Green Tea Set",
+    description:
+      "Experience the rich flavor of premium-grade matcha with our organic set – perfect for tea enthusiasts.",
+    imageUrl:
+      "https://images.pexels.com/photos/7565515/pexels-photo-7565515.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    currentPrice: 2499,
+    orgPrice: 2999,
+  },
+  {
+    name: "Wireless Bluetooth Earbuds",
+    description:
+      "Immerse yourself in music with our wireless earbuds, featuring crystal-clear sound and comfortable fit.",
+    imageUrl:
+      "https://images.pexels.com/photos/6867258/pexels-photo-6867258.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    currentPrice: 899,
+    orgPrice: 1299,
+  },
+];
+
+export const bannerImages = [
+  {
+    id: 1,
+    img: "./banner1.svg",
+  },
+  {
+    id: 2,
+    img: "./banner2.svg",
+  },
+  {
+    id: 3,
+    img: "./banner3.svg",
+  },
+];
