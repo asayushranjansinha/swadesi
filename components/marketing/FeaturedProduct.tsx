@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -19,6 +20,8 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import IconWrapper from "../shared/IconWrapper";
 
 interface ProductDetailsProps {
   product: ProductItem;
@@ -53,7 +56,7 @@ const FeaturedProduct: React.FC<ProductDetailsProps> = ({ product }) => {
               </li>
             ))}
           </ul>
-          <div className="h-60 w-full max-w-2xl sm:h-80 relative shadow-md hover:scale-125 z-30 transition-transform duration-300 ease-in-out">
+          <div className="h-60 w-full max-w-2xl sm:h-80 relative shadow-md hover:scale-110 z-10 transition-transform duration-300 ease-in-out">
             <Image
               src={images[selectedImage]}
               alt={name}
@@ -68,11 +71,12 @@ const FeaturedProduct: React.FC<ProductDetailsProps> = ({ product }) => {
         <div className="flex gap-2 flex-wrap items-center justify-between mt-4">
           <span
             className={cn(
-              "flex h-10 w-fit items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm font-bold"
+              "flex h-10 w-fit items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm font-bold text-red-700"
             )}
           >
             {category}
           </span>
+
           <Select>
             <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Sizes" />
@@ -94,6 +98,12 @@ const FeaturedProduct: React.FC<ProductDetailsProps> = ({ product }) => {
           </p>
         </div>
       </CardContent>
+      <CardFooter className="justify-center">
+        <Button className="flex space-x-2 items-center">
+          <span className="text-lg font-bold">Add to Cart</span>
+          <IconWrapper icon={"iconoir:add-to-cart"} height="24" width="24" />
+        </Button>
+      </CardFooter>
     </Card>
   );
 };

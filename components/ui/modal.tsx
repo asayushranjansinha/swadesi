@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 interface ModalProps {
-  title: string;
+  title?: string;
   description?: string;
   isOpen: boolean;
   onClose: () => void;
@@ -25,18 +25,14 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   children,
 }) => {
-  
-  
-
   const onChange = (open: boolean) => {
     if (!open) {
       onClose();
     }
   };
 
- 
   return (
-    <Dialog open={isOpen} onOpenChange={onChange} >
+    <Dialog open={isOpen} onOpenChange={onChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

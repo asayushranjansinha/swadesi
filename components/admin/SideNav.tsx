@@ -15,11 +15,11 @@ import { Icon } from "@iconify/react";
 
 // Constants and Utilities
 import { SIDE_NAVIGATION_ITEMS } from "@/constants";
+import { useAuthModal } from "@/hooks/use-auth-modal";
 import { useUserStore } from "@/hooks/userStore";
 import { SideNavigation } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { useSignin } from "@/hooks/use-signin";
 // import { useAuth } from "@/hooks/use-signin";
 
 function SideNav() {
@@ -51,7 +51,7 @@ function NavHeader() {
 
 function NavContainer() {
   const { user } = useUserStore();
-  const { onOpen } = useSignin();
+  const { onOpen } = useAuthModal();
   return (
     <Accordion
       type="single"

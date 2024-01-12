@@ -20,7 +20,7 @@ import { Icon } from "@iconify/react";
 
 // Constants and Utilities
 import { SIDE_NAVIGATION_ITEMS } from "@/constants";
-import { useSignin } from "@/hooks/use-signin";
+import { useAuthModal } from "@/hooks/use-auth-modal";
 import { useUserStore } from "@/hooks/userStore";
 import { SideNavigation } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -61,7 +61,7 @@ export default HeaderMobile;
 function NavigationContainer() {
   // Access user data using custom hook
   const { user } = useUserStore();
-  const { onOpen } = useSignin();
+  const { onOpen } = useAuthModal();
 
   return (
     <motion.ul
@@ -170,7 +170,7 @@ const MenuToggle = ({ toggle }: { toggle: any }) => {
   return (
     <button
       onClick={toggle}
-      className="pointer-events-auto absolute right-4 top-[14px] z-30"
+      className="pointer-events-auto absolute right-4 top-4 z-30"
     >
       <svg width="23" height="23" viewBox="0 0 23 23">
         <Path

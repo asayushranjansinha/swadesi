@@ -14,13 +14,27 @@ import {
 import React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useAuthModal } from "@/hooks/use-auth-modal";
+import { Button } from "../ui/button";
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 function Header() {
+  const { onOpen } = useAuthModal();
   return (
     <header className="fixed inset-x-0 top-0 border-b bg-background z-30">
       {/* header container */}
       <div className="container mx-auto py-2 px-4 flex items-center space-x-4">
         <Logo />
+
+        {/* authmodal trigger */}
+        {/* <Button
+          variant={"ghost"}
+          className="w-full space-x-2 hover:bg-transparent"
+          onClick={onOpen}
+        >
+          <Icon icon="uil:signin" rotate={2} width="24" height="24" />
+          <span className="font-semibold text-xl flex">SignIn</span>
+        </Button> */}
 
         <NavigationMenu className="hidden md:flex">
           <NavigationMenuList>

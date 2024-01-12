@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
-interface useSigninStore {
+interface useAuthModalStore {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
 
-export const useSignin = create<useSigninStore>((set) => ({
+export const useAuthModal = create<useAuthModalStore>((set) => ({
   isOpen: false,
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
