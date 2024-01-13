@@ -27,7 +27,7 @@ type UserState = {
 };
 
 export const useUserStore = create<UserState>((set) => ({
-  user: dummyAdminUser,
+  user: undefined,
   setUser: (user) => set(() => ({ user: { ...user } })),
   clearUser: () => set({ user: undefined }),
 }));

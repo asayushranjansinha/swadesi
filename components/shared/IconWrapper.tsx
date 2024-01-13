@@ -1,10 +1,10 @@
 "use client";
 import { Icon } from '@iconify/react';
 
+// Interface with 'icon' as required and rest as optional
 interface IconWrapperProps {
   icon: string;
-  height?: string;
-  width?: string;
+  [key: string]: any; 
 }
 
 function IconWrapper({ icon, ...props }: IconWrapperProps) {

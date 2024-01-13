@@ -4,7 +4,7 @@ import { motion, useCycle } from "framer-motion";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // UI Components
 import {
@@ -18,7 +18,6 @@ import { Sling as Hamburger } from "hamburger-react";
 import IconWrapper from "../shared/IconWrapper";
 
 // Icon
-import { Icon } from "@iconify/react";
 
 // Constants and Utilities
 import { NavigationRoutes } from "@/constants";
@@ -49,7 +48,7 @@ function HeaderMobile() {
       ref={containerRef}
     >
       <motion.div
-        className="absolute inset-0 right-0 w-full bg-primary/80 dark:bg-background/90"
+        className="absolute inset-0 right-0 w-full bg-sky-300/70 dark:bg-background/70"
         variants={ContainerCircularDropdown}
       />
       <NavigationContainer toggle={toggleOpen} />
@@ -80,15 +79,18 @@ function NavigationContainer({ toggle }: NavigationContainerProps) {
       </Accordion>
 
       {/* Theme Change */}
-      <motion.li variants={MenuItemVariants}>
+      <motion.li
+        variants={signinVariant}
+        className="absolute bottom-0 right-1/2"
+      >
         {!user && (
           <Button
-            variant={"ghost"}
-            className="w-full space-x-2 hover:bg-transparent"
+            variant={"default"}
+            className="w-full flex items-center gap-2"
             onClick={onOpen}
           >
-            <Icon icon="uil:signin" rotate={2} width="24" height="24" />
-            <span className="font-semibold text-xl flex">SignIn</span>
+            <IconWrapper icon="uil:signin" rotate={2} width="24" height="24" />
+            <span className="font-semibold text-lg">SignIn</span>
           </Button>
         )}
       </motion.li>
@@ -173,13 +175,16 @@ const MenuToggle = ({
   isOpen: boolean;
 }) => {
   const { theme } = useTheme();
-  const color = theme === "light" ? "black" : "white";
+  const [menuColor, setColor] = useState<string>("#fff");
+  useEffect(() => {
+    setColor(theme === "light" ? "#000" : "#fff");
+  }, [theme]);
   return (
     <button
       onClick={toggle}
       className="pointer-events-auto absolute right-4 top-2 z-30"
     >
-      <Hamburger size={28} color={color} />
+      <Hamburger size={28} color={menuColor} />
     </button>
   );
 };
@@ -235,6 +240,25 @@ const MenuItemVariants = {
   },
   closed: {
     y: 50,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+      duration: 0.02,
+    },
+  },
+};
+const signinVariant = {
+  open: {
+    y: 0,
+    x: "50%",
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 50,
+    x: "50%",
     opacity: 0,
     transition: {
       y: { stiffness: 1000 },

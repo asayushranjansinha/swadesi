@@ -399,17 +399,4 @@ export const FeaturedProductList: FeaturedProductItem[] = [
   },
 ];
 
-export const bannerImages = [
-  {
-    id: 1,
-    img: "./banner1.svg",
-  },
-  {
-    id: 2,
-    img: "./banner2.svg",
-  },
-  {
-    id: 3,
-    img: "./banner3.svg",
-  },
-];
+

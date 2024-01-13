@@ -1,6 +1,5 @@
 import { Navigation } from "./lib/types";
 
-
 export const NavigationRoutes: Navigation[] = [
   {
     id: "home",
@@ -8,6 +7,13 @@ export const NavigationRoutes: Navigation[] = [
     icon: "lucide:home",
     type: "link",
     path: "/",
+  },
+  {
+    id: "cart",
+    heading: "Cart",
+    icon: "icomoon-free:cart",
+    type: "link",
+    path: "/cart",
   },
   {
     id: "help",
@@ -49,12 +55,11 @@ export const NavigationRoutes: Navigation[] = [
     ],
   },
   {
-    id: "settings",
-    heading: "Settings",
+    id: "account",
+    heading: "My Account",
     type: "menu",
-    icon: "lucide:settings",
-    path: "/settings",
-    access: "admin",
+    icon: "ic:baseline-account-box",
+    path: "/account",
     submenu: true,
     submenuItems: [
       {
@@ -66,11 +71,34 @@ export const NavigationRoutes: Navigation[] = [
       },
       {
         id: "account",
-        heading: "Account",
+        heading: "Manage Account",
         type: "link",
         path: "/account", //todo:dynamic
         icon: "ic:baseline-account-box",
       },
     ],
+  },
+];
+
+export const bannerImages = [
+  {
+    id: 1,
+    imageLarge: "./banner1.svg",
+    imageMobile: "./mobile-banner1.svg",
+  },
+  {
+    id: 2,
+    imageLarge: "./banner2.svg",
+    imageMobile: "./mobile-banner2.svg",
+  },
+  {
+    id: 3,
+    imageLarge: "./banner3.svg",
+    imageMobile: "./mobile-banner3.svg",
+  },
+  {
+    id: 4,
+    imageLarge: "./banner4.svg",
+    imageMobile: "./mobile-banner4.svg",
   },
 ];
