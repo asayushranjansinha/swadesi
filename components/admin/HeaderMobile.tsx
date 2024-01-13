@@ -52,7 +52,7 @@ function HeaderMobile() {
         className="absolute inset-0 right-0 w-full bg-primary/80 dark:bg-background/90"
         variants={ContainerCircularDropdown}
       />
-      <NavigationContainer />
+      <NavigationContainer toggle={toggleOpen} />
       <MenuToggle toggle={toggleOpen} isOpen={isOpen} />
     </motion.nav>
   );
@@ -60,7 +60,10 @@ function HeaderMobile() {
 
 export default HeaderMobile;
 
-function NavigationContainer() {
+interface NavigationContainerProps {
+  toggle: () => void;
+}
+function NavigationContainer({ toggle }: NavigationContainerProps) {
   // Access user data using custom hook
   const { user } = useUserStore();
   const { onOpen } = useAuthModal();
@@ -72,7 +75,7 @@ function NavigationContainer() {
     >
       <Accordion type="single" collapsible className="w-full space-y-4">
         {NavigationRoutes.map((item) => (
-          <NavigationItem key={item.id} item={item} />
+          <NavigationItem key={item.id} item={item} toggle={toggle} />
         ))}
       </Accordion>
 
@@ -97,8 +100,9 @@ function NavigationContainer() {
 }
 type NavigationItemProps = {
   item: Navigation;
+  toggle: () => void;
 };
-function NavigationItem({ item }: NavigationItemProps) {
+function NavigationItem({ item, toggle }: NavigationItemProps) {
   const { user } = useUserStore();
   const pathname = usePathname();
 
@@ -128,6 +132,7 @@ function NavigationItem({ item }: NavigationItemProps) {
               {item.submenuItems?.map((subItem) => (
                 <li key={subItem.id}>
                   <Link
+                    onClick={toggle}
                     href={subItem.path!}
                     className={`${
                       subItem.path === pathname ? "font-bold" : ""
@@ -145,6 +150,7 @@ function NavigationItem({ item }: NavigationItemProps) {
       return (
         <motion.li variants={MenuItemVariants}>
           <Link
+            onClick={toggle}
             href={item.path!}
             className={cn(
               "flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background transition-colors duration-300",
@@ -159,7 +165,13 @@ function NavigationItem({ item }: NavigationItemProps) {
   }
 }
 
-const MenuToggle = ({ toggle, isOpen }: { toggle: any; isOpen: boolean }) => {
+const MenuToggle = ({
+  toggle,
+  isOpen,
+}: {
+  toggle: () => void;
+  isOpen: boolean;
+}) => {
   const { theme } = useTheme();
   const color = theme === "light" ? "black" : "white";
   return (
