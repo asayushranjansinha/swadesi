@@ -1,64 +1,76 @@
-import { Icon } from "@iconify/react";
-import { SideNavigation } from "./lib/types";
-import { ModeToggle } from "./components/ui/mode-toggle";
+import { Navigation } from "./lib/types";
 
-export const SIDE_NAVIGATION_ITEMS: SideNavigation[] = [
+
+export const NavigationRoutes: Navigation[] = [
   {
+    id: "home",
+    heading: "Home",
+    icon: "lucide:home",
     type: "link",
-    title: "Home",
     path: "/",
-    element: <Icon icon="lucide:home" width="24" height="24" />,
-    submenu: false,
   },
   {
+    id: "help",
+    heading: "Help",
+    icon: "lucide:help-circle",
     type: "link",
-    title: "Admin",
-    path: "/admin",
-    element: <Icon icon="lucide:user-check" width="24" height="24" />,
-    submenu: true,
-    userRole: "admin",
-    subMenuItems: [
-      { type: "link", title: "Dashboard", path: "/admin", userRole: "admin" },
-      {
-        type: "link",
-        title: "Analytics",
-        path: "/admin/analytics",
-        userRole: "admin",
-      },
-      {
-        type: "link",
-        title: "Products",
-        path: "/admin/products",
-        userRole: "admin",
-      },
-    ],
-  },
-  {
-    type: "link",
-    title: "Settings",
-    path: "/settings",
-    element: <Icon icon="lucide:settings" width="24" height="24" />,
-    submenu: true,
-    subMenuItems: [
-      {
-        type: "link",
-        title: "Account",
-        path: "/settings/account",
-        userRole: "admin",
-      },
-      {
-        type: "link",
-        title: "Privacy",
-        path: "/settings/privacy",
-        userRole: "admin",
-      },
-    ],
-  },
-  {
-    type: "link",
-    title: "Help",
     path: "/help",
-    submenu: false,
-    element: <Icon icon="lucide:help-circle" width="24" height="24" />,
+  },
+  {
+    id: "admin",
+    heading: "Admin",
+    icon: "lucide:user-check",
+    type: "menu",
+    path: "/admin",
+    access: "admin",
+    submenu: true,
+    submenuItems: [
+      {
+        id: "dashboard",
+        heading: "Dashboard",
+        type: "link",
+        path: "/admin",
+        icon: "ic:round-dashboard",
+      },
+      {
+        id: "analytics",
+        heading: "Analytics",
+        type: "link",
+        path: "/admin/analytics",
+        icon: "ic:baseline-analytics",
+      },
+      {
+        id: "products",
+        heading: "Products",
+        type: "link",
+        path: "/admin/products",
+        icon: "gridicons:product-virtual",
+      },
+    ],
+  },
+  {
+    id: "settings",
+    heading: "Settings",
+    type: "menu",
+    icon: "lucide:settings",
+    path: "/settings",
+    access: "admin",
+    submenu: true,
+    submenuItems: [
+      {
+        id: "settings",
+        heading: "Settings",
+        type: "link",
+        path: "/settings",
+        icon: "ic:baseline-settings",
+      },
+      {
+        id: "account",
+        heading: "Account",
+        type: "link",
+        path: "/account", //todo:dynamic
+        icon: "ic:baseline-account-box",
+      },
+    ],
   },
 ];

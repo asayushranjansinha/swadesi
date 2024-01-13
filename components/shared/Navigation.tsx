@@ -1,8 +1,10 @@
 "use client";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
 
+import { cn } from "@/lib/utils";
+import { useUserStore } from "@/hooks/userStore";
+import { usePathname } from "next/navigation";
+
+// Components
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -11,128 +13,90 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-
 import IconWrapper from "./IconWrapper";
-import { useUserStore } from "@/hooks/userStore";
+
+// Styles
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+
+// Next.js
+import Link from "next/link";
+
+// Constants
+import { NavigationRoutes } from "@/constants";
+import { Navigation } from "@/lib/types";
 
 function Navigation() {
-  const { user } = useUserStore();
   return (
     <NavigationMenu className="hidden md:block">
       <NavigationMenuList>
-        <NavigationMenuItem>
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Home
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/support" legacyBehavior passHref>
-            <NavigationMenuLink
-              className={cn(
-                "flex items-center gap-2",
-                navigationMenuTriggerStyle()
-              )}
-            >
-              Support
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        {user && user.role === "admin" && (
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Admin</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="w-60 min-w-fit h-full p-6 border-2">
-                <li>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="/admin"
-                      className="flex w-full gap-1 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    >
-                      <IconWrapper
-                        icon="ic:round-dashboard"
-                        height="24"
-                        width="24"
-                      />
-                      DashBoard
-                    </Link>
-                  </NavigationMenuLink>
-                </li>
-                <li className="w-full">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="/admin/analytics"
-                      className="flex w-full gap-1 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    >
-                      <IconWrapper
-                        icon="ic:baseline-analytics"
-                        height="24"
-                        width="24"
-                      />
-                      Analytics
-                    </Link>
-                  </NavigationMenuLink>
-                </li>
-                <li className="w-full">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href="/admin/products"
-                      className="flex w-full gap-1 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                    >
-                      <IconWrapper
-                        icon="gridicons:product-virtual"
-                        height="24"
-                        width="24"
-                      />
-                      Products
-                    </Link>
-                  </NavigationMenuLink>
-                </li>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        )}
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Settings</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="w-60 min-w-fit h-full p-6 border-2">
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/account" //todo:dynamic user
-                    className="flex w-full gap-1 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                  >
-                    <IconWrapper
-                      icon="ic:baseline-account-box"
-                      height="24"
-                      width="24"
-                    />
-                    Account
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-              <li>
-                <NavigationMenuLink asChild>
-                  <Link
-                    href="/account" //todo:dynamic user
-                    className="flex w-full gap-1 items-center select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                  >
-                    <IconWrapper
-                      icon="ic:baseline-settings"
-                      height="24"
-                      width="24"
-                    />
-                    Settings
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+        {NavigationRoutes.map((route) => (
+          <NavigationItem key={route.id} item={route} />
+        ))}
       </NavigationMenuList>
     </NavigationMenu>
   );
 }
 
 export default Navigation;
+
+interface NavigationItemProps {
+  item: Navigation;
+}
+function NavigationItem({ item }: NavigationItemProps) {
+  const { user } = useUserStore();
+  const pathname = usePathname();
+
+  if (item.access && item.access !== user?.role) return null;
+  switch (item.submenu) {
+    case true:
+      return (
+        <NavigationMenuItem>
+          <NavigationMenuTrigger
+            className={cn(pathname.includes(item.path!) && "bg-accent")}
+          >
+            {item.heading!}
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="w-48 min-w-fit h-full p-4">
+              {item.submenuItems?.map((subItem) => (
+                <li key={subItem.id}>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href={subItem.path!}
+                      className={cn(
+                        "flex w-full items-center gap-2 select-none rounded-md p-2 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                        subItem.path === pathname && "font-bold"
+                      )}
+                    >
+                      <IconWrapper
+                        icon={subItem.icon!}
+                        height="24"
+                        width="24"
+                      />
+                      {subItem.heading}
+                    </Link>
+                  </NavigationMenuLink>
+                </li>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      );
+
+    default:
+      return (
+        <NavigationMenuItem>
+          <Link href={item.path!} legacyBehavior passHref>
+            <NavigationMenuLink
+              className={cn(
+                item.path === pathname && "!bg-accent",
+                navigationMenuTriggerStyle()
+              )}
+            >
+              {item.heading}
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+      );
+  }
+}

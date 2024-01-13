@@ -54,7 +54,7 @@ export enum ProductSize {
     XLarge = "X-Large",
     XXLarge = "XX-Large",
     XXXLarge = "XXX-Large",
-  }
+}
 
 export interface ProductItem {
     name: string;
@@ -63,4 +63,16 @@ export interface ProductItem {
     price: number;
     sizes?: ProductSize[]
     category?: ProductCategory;
+}
+
+
+export interface Navigation {
+    id: string;
+    heading: string;
+    type: 'link' | 'menu',
+    path?: string;
+    icon?: string;
+    access?: 'admin';
+    submenu?: boolean;
+    submenuItems?: Navigation[];
 }

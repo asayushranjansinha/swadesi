@@ -15,15 +15,16 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Sling as Hamburger } from "hamburger-react";
+import IconWrapper from "../shared/IconWrapper";
 
 // Icon
 import { Icon } from "@iconify/react";
 
 // Constants and Utilities
-import { SIDE_NAVIGATION_ITEMS } from "@/constants";
+import { NavigationRoutes } from "@/constants";
 import { useAuthModal } from "@/hooks/use-auth-modal";
 import { useUserStore } from "@/hooks/userStore";
-import { SideNavigation } from "@/lib/types";
+import { Navigation } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "../ui/mode-toggle";
 
@@ -70,8 +71,8 @@ function NavigationContainer() {
       className="absolute grid w-full gap-3 px-10 py-16"
     >
       <Accordion type="single" collapsible className="w-full space-y-4">
-        {SIDE_NAVIGATION_ITEMS.map((item, idx) => (
-          <NavigationItem key={idx} item={item} />
+        {NavigationRoutes.map((item) => (
+          <NavigationItem key={item.id} item={item} />
         ))}
       </Accordion>
 
@@ -95,44 +96,44 @@ function NavigationContainer() {
   );
 }
 type NavigationItemProps = {
-  item: SideNavigation;
+  item: Navigation;
 };
 function NavigationItem({ item }: NavigationItemProps) {
   const { user } = useUserStore();
   const pathname = usePathname();
 
-  if (item?.userRole && item?.userRole !== user?.role) return null;
+  if (item?.access && item?.access !== user?.role) return null;
   switch (item.submenu) {
     case true:
       return (
         <motion.li variants={MenuItemVariants}>
           <AccordionItem
-            value={item.title}
+            value={item.id}
             className="my-2
         "
           >
             <AccordionTrigger
               className={cn(
                 "p-2 rounded-lg hover:bg-background transition-colors duration-300",
-                pathname.includes(item.path!) ? "bg-background/50" : ""
+                pathname.includes(item.path!) ? "bg-accent" : ""
               )}
             >
               <div className="w-full flex space-x-4 items-center">
-                {item.element}
-                <span className="font-semibold text-xl">{item.title}</span>
+                <IconWrapper icon={item.icon!} height="24" width="24" />
+                <span className="font-semibold text-xl">{item.heading}</span>
               </div>
             </AccordionTrigger>
 
-            <AccordionContent className="ml-10 space-y-2 my-2 list-none">
-              {item.subMenuItems?.map((subItem, index) => (
-                <li key={index}>
+            <AccordionContent className="ml-12 space-y-2 my-2 list-none">
+              {item.submenuItems?.map((subItem) => (
+                <li key={subItem.id}>
                   <Link
                     href={subItem.path!}
                     className={`${
                       subItem.path === pathname ? "font-bold" : ""
                     }`}
                   >
-                    <span>{subItem.title}</span>
+                    <span>{subItem.heading}</span>
                   </Link>
                 </li>
               ))}
@@ -141,27 +142,20 @@ function NavigationItem({ item }: NavigationItemProps) {
         </motion.li>
       );
     default:
-      switch (item.type) {
-        case "link":
-          return (
-            <motion.li variants={MenuItemVariants}>
-              <Link
-                href={item.path!}
-                className={cn(
-                  "flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background transition-colors duration-300",
-                  item.path === pathname ? "bg-background/50" : ""
-                )}
-              >
-                {item.element}
-                <span className="font-semibold text-xl flex">{item.title}</span>
-              </Link>
-            </motion.li>
-          );
-        default:
-          return (
-            <motion.li variants={MenuItemVariants}>{item.element}</motion.li>
-          );
-      }
+      return (
+        <motion.li variants={MenuItemVariants}>
+          <Link
+            href={item.path!}
+            className={cn(
+              "flex flex-row space-x-4 items-center p-2 rounded-lg hover:bg-background transition-colors duration-300",
+              item.path === pathname ? "!bg-accent" : ""
+            )}
+          >
+            <IconWrapper icon={item.icon!} height="24" width="24" />
+            <span className="font-semibold text-xl flex">{item.heading}</span>
+          </Link>
+        </motion.li>
+      );
   }
 }
 
