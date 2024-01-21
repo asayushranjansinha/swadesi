@@ -2,20 +2,23 @@ import withTitle from "@/components/marketing/SectionWithHeadingHOC";
 import FeaturedProduct from "@/components/marketing/FeaturedProduct";
 import HeroCarousel from "@/components/marketing/HeroCarousel";
 import ProductList from "@/components/marketing/ProductList";
-import { FeaturedProductList, dealOfTheDayProduct } from "@/data";
+
+// Data
+import { FeaturedEssentials } from "@/data";
 
 export default function LandingPage() {
   return (
     <div className="w-full h-full">
       <HeroCarousel />
+      
       <ProductListWithTitle
-        products={FeaturedProductList}
+        products={FeaturedEssentials}
         title="Featured Essentials"
       />
-      <DealOfTheDayComponent
+      {/* <DealOfTheDayComponent
         product={dealOfTheDayProduct}
         title="Deal of the Day"
-      />
+      /> */}
     </div>
   );
 }

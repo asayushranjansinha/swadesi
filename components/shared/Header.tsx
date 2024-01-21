@@ -35,5 +35,14 @@ function Header() {
 export default Header;
 
 function Logo() {
-  return <Image src={"/logo.png"} width={100} height={40} alt="Company Logo" />;
+  return (
+    <Image
+      src={"/logo.png"}
+      width={100}
+      height={40}
+      priority
+      alt="Company Logo"
+      style={{ width: "auto", height: "auto" }}
+    />
+  );
 }

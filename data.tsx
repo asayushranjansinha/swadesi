@@ -1,10 +1,9 @@
 import { ChartData, ChartOptions } from "chart.js";
 import {
   BarChartProps,
-  FeaturedProductItem,
+  Product,
   ProductCategory,
-  ProductItem,
-  ProductSize,
+  QuantityUnit,
   WidgetDataProps,
 } from "./lib/types";
 import { changeInPercentage } from "./lib/utils";
@@ -348,55 +347,211 @@ export const SalesDistributionChartOptions: ChartOptions<"polarArea"> = {
   plugins: {},
 };
 
-export const dealOfTheDayProduct: ProductItem = {
-  name: "Film Camera",
-  description:
-    "Capture memories with our classic film camera. A perfect blend of nostalgia and artistry.",
-  images: [
-    "https://images.pexels.com/photos/5001553/pexels-photo-5001553.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/4889279/pexels-photo-4889279.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/2335048/pexels-photo-2335048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/2925312/pexels-photo-2925312.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    "https://images.pexels.com/photos/66134/pexels-photo-66134.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  ],
-  price: 99.99,
-  sizes: [
-    ProductSize.Medium,
-    ProductSize.Small,
-    ProductSize.Large,
-    ProductSize.XLarge,
-  ],
-  category: ProductCategory.Electronics,
-};
+export const FeaturedEssentials: Product[] = [
+  {
+    // Basic Information
+    id: "1",
+    name: "BYB Essentials Organic LemonGrass Essential Oil, 100% Pure | Natural | Undiluted (1000 ml)",
+    brand: "BYB Essentials",
+    price: 1999,
+    images: [
+      "https://m.media-amazon.com/images/I/51DB+kbjpcL._AC_UL320_.jpg",
+      "https://m.media-amazon.com/images/I/41gXEb1WLyL._SX466_.jpg",
+      "https://m.media-amazon.com/images/I/41NR4-POv3L._SX450_.jpg",
+      "https://m.media-amazon.com/images/I/71QV8HEdAQL._SX450_.jpg",
+    ],
 
-export const FeaturedProductList: FeaturedProductItem[] = [
-  {
-    name: "Smart Home Security Camera",
-    description:
-      "Enhance home security with our high-definition, wireless camera featuring motion detection and two-way audio.",
-    imageUrl:
-      "https://images.pexels.com/photos/5966513/pexels-photo-5966513.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    currentPrice: 2999,
-    orgPrice: 3999,
+    // Descriptive and Quantity-related Properties
+    description: `BYB Lemongrass Oil Organic Lemongrass Oil - BYB Essential organic essential oils are proudly directly procured for farms to ensure ultimate quality and integrity. 100% Pure, Single Ingredient Oil - BYB Essential organic essential oils are a single-ingredient product. No synthetic additives, ever. Multipurpose Essential Oil – BYB Essentials oils are suitable for aromatherapy diffusers and have many other great uses and benefits. 3rd Party Tested for Purity - Each batch is being tested for purity by a 3rd Party Independent Lab. Vegan & Cruelty-Free - Free from additives, BYB Essentials aromatherapy oils are proudly vegan and cruelty-free. Why BYB Essentials oils? How did we get our start? BYB Essentials was formed from the idea: Natural organic products made for you, by you. We believe that natural products are the key to a healthy body, mind, and soul. What makes our products unique? We are committed to maintaining the highest quality by sourcing the best of nature. Our products are Certified Organic, and Cruelty-Free. Each batch is tested for purity by a 3rd Party Lab. Why do we love what we do? We believe in our customers, our community, and our products. Our customers are very important to us and we are always listening.`,
+    netQuantity: 1000,
+    quantityUnit: QuantityUnit.Milliliters,
+    totalStock: 100,
+
+    // Categorization and Additional Features
+    category: ProductCategory.Beauty,
+    features: ["Pure", "Natural", "Chemical Free"],
+    color: "Clear",
+
+    //  // Weight and Dimensions
+    //  weight?: ProductUnit;
+    //  dimensions?: { length: number; width?: number; height: number };
+
+    //  // Sizes Information
+    //  sizes?: ProductSizes[];
   },
   {
-    name: "Organic Matcha Green Tea Set",
-    description:
-      "Experience the rich flavor of premium-grade matcha with our organic set – perfect for tea enthusiasts.",
-    imageUrl:
-      "https://images.pexels.com/photos/7565515/pexels-photo-7565515.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    currentPrice: 2499,
-    orgPrice: 2999,
+    // Basic Information
+    id: "2",
+    name: "Aravi Organic Rosemary Essential Oil for Hair Growth, Quick Hair Growth Rosemary Oil & Hair Fall Control - 100% Pure, Natural and Undiluted Rosemary Leaves Oil- 30 ml",
+    brand: "Exotic Aromas",
+    price: 399,
+    images: [
+      "https://m.media-amazon.com/images/I/41BDhLaXwZL._SX300_SY300_QL70_FMwebp_.jpg",
+      "https://m.media-amazon.com/images/I/61BJJFa-D1L._SY450_.jpg",
+      "https://m.media-amazon.com/images/I/814GNSe9GeL._SY450_.jpg",
+      "https://m.media-amazon.com/images/I/71dcQJe2d0L._SY450_.jpg",
+      "https://m.media-amazon.com/images/I/71PlTVGYekL._SY450_.jpg",
+    ],
+
+    // Descriptive and Quantity-related Properties
+    description: `Rosemary Essential Oil is extracted from the leaves of the Rosemary plant which has a woody, evergreen scent and used commonly for therapeutic purposes. You can also add the oil in a diffuser, bathwater or combine with a carrier oil.
+    Owing to its many beneficial, medicinal & therapeutic properties, Rosemary Oil is used in aromatherapy as it can help with cerebral activity and help focus better. It is also used in hair care for stimulating hair growth & managing hair loss.
+    Rosemary Essential Oil has many medicinal properties due to which it can be combined with different mixtures to make your own toner. It is the perfect specimen to add in your face cleansing & Hair Care regime.
+    Add a drop to your diffuser, mix it with carrier oils for massage, or incorporate it into your skincare routine. Essential Oil is a natural and versatile solution that caters to your well-being and relaxation needs.
+    Aravi Organic is committed to creating and providing high-quality beauty products to help people embrace their natural features. Our formulas are carefully crafted by revered scientists after hand-picking natural ingredients for you.`,
+    netQuantity: 30,
+    quantityUnit: QuantityUnit.Milliliters,
+    totalStock: 100,
+
+    // Categorization and Additional Features
+    category: ProductCategory.Beauty,
+    features: ["Rosemary", "Pure ", "Relaxation"],
+
+    //  // Weight and Dimensions
+    //  weight?: ProductUnit;
+    //  dimensions?: { length: number; width?: number; height: number };
+
+    //  // Sizes Information
+    //  sizes?: ProductSizes[];
   },
   {
-    name: "Wireless Bluetooth Earbuds",
-    description:
-      "Immerse yourself in music with our wireless earbuds, featuring crystal-clear sound and comfortable fit.",
-    imageUrl:
-      "https://images.pexels.com/photos/6867258/pexels-photo-6867258.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    currentPrice: 899,
-    orgPrice: 1299,
+    // Basic Information
+    id: "3",
+    name: "CS Essentials Skin Fuel Moisturizer Daily Moisturizer for Dry Skin,Lighten Skin,Glowing Skin - For Men & Women",
+    brand: "CS ESSENTIALS",
+    price: 425,
+    images: [
+      "https://m.media-amazon.com/images/I/61DV7AzA3EL._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/71QDPF2e8SL._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/41yTzWBvqTS._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/61jgB9-3XhS._SX522_.jpg",
+      "https://m.media-amazon.com/images/I/91A0Y9QRg-S._SX522_.jpg",
+    ],
+
+    // Descriptive and Quantity-related Properties
+    description: `Neem infused Facial Cleanser is an ideal gentle and natural alternative to harsh Sulphate infused cleansers, and is especially designed to treat sensitive, acne prone and oily skin.`,
+    netQuantity: 50,
+    quantityUnit: QuantityUnit.Milliliters,
+    totalStock: 100,
+
+    // Categorization and Additional Features
+    category: ProductCategory.Beauty,
+    features: ["Relaxation"],
+
+    //  // Weight and Dimensions
+    //  weight?: ProductUnit;
+    //  dimensions?: { length: number; width?: number; height: number };
+
+    //  // Sizes Information
+    //  sizes?: ProductSizes[];
+  },
+  {
+    // Basic Information
+    id: "4",
+    name: "Soulflower Rosemary Essential Oil for Hair Growth, Hair Fall Control and Nourishment, Skin Care | Clinically Tested & Ecocert Certified Organic 100% Pure, Natural, Undiluted | 15ml",
+    brand: "CS ESSENTIALS",
+    price: 424,
+    images: [
+      "https://m.media-amazon.com/images/I/31X63UouLnL._SX300_SY300_QL70_FMwebp_.jpg",
+      "https://m.media-amazon.com/images/I/61Vit3UfvEL._SY450_.jpg",
+      "https://m.media-amazon.com/images/I/61NO6bUouvL._SY450_.jpg",
+      "https://m.media-amazon.com/images/I/61Re-hv-OCL._SY450_.jpg",
+      "https://m.media-amazon.com/images/I/61dksG1rxvL._SY450_.jpg",
+    ],
+
+    // Descriptive and Quantity-related Properties
+    description: `✅ “22 Saal ka Bharosa” for HAIR GROWTH and VISIBLY THICKER HAIR: Soulflower Rosemary Essential Oil has 360-degree hair benefits. Encourages faster hair growth, Hair Serum controls hair fall, reduces hair damage, receding hairline, and hair thinning
+    ✅FULLER SCALP COVERAGE: Stimulates blood circulation to the scalp, hair growth as it may have the ability to unclog the pores and seep deep into the hair follicles and promotes strong hair roots resulting in less breakage
+    ✅BLEMISH-FREE, CLEAR SKIN: Helps moisturize skin, reduce blemishes, dark spots, and puffiness, regulate oil production and improve skin complexion
+    ✅PREMIUM ORGANIC OIL: Our 100% Pure, Undiluted & Natural Rosemary Essential Oil extracted through Steam-Distillation of High-Quality Rosemary Leaves ensures you get its maximum therapeutic benefits which synthetic oils cannot provide
+    ✅VALUE FOR MONEY: Multipurpose & Versatile, Suitable for Men & Women of All Hair & Skin Types, add it to any DIYS for Hair & Skin or use it for Aromatherapy by adding it to a diffuser. Comes in a tightly sealed reusable glass bottle with a glass dropper included for easy application
+    ✅ CLINICALLY TESTED AND CERTIFIED: Soulflower Rosemary Essential Oil is India FDA Approved, ECOCERT COSMOS ORGANIC Certified, Clinically Tested, Preservative, & Chemical Free and Guarantee of Customer Satisfaction. PATCH TEST (CLINICALLY TESTED) : Report has been completed by EnvisBE Solutions Pvt. Ltd. on 1st April 2023`,
+    netQuantity: 15,
+    quantityUnit: QuantityUnit.Milliliters,
+    totalStock: 100,
+
+    // Categorization and Additional Features
+    category: ProductCategory.Beauty,
+    features: ["Soulflower", "Rosemary", "Skin Safe"],
+
+    //  // Weight and Dimensions
+    //  weight?: ProductUnit;
+    //  dimensions?: { length: number; width?: number; height: number };
+
+    //  // Sizes Information
+    //  sizes?: ProductSizes[];
+  },
+  {
+    // Basic Information
+    id: "5",
+    name: "Organix Mantra Lavender Oil | Promotes Clear Skin, Strong Hair | Calming & Soothing Care for Face, Scalp & Body | 15ML",
+    brand: "Organix Mantra",
+    price: 230,
+    images: [
+      "https://m.media-amazon.com/images/I/61HEbcREltL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/716LTCDZ-uL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/71-9mplHUHL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/71gtNMy67kL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/61dksG1rxvL._SY450_.jpg",
+      "https://m.media-amazon.com/images/I/61dksG1rxvL._SY450_.jpg",
+      "https://m.media-amazon.com/images/I/71ZEUY1mU2L._SX679_.jpg",
+    ],
+
+    // Descriptive and Quantity-related Properties
+    description: `Beauty Unveiled : Organix Mantra Lavender Oil is your beauty secret, known for potentially rejuvenating and nourishing your skin and face, helping you achieve a radiant and serene appearance.
+    Glowing Complexion : Experience the calming and soothing properties of Lavender Oil when added to your skincare regimen. It may contribute to a smoother, even-toned complexion, allowing your natural beauty to shine through.
+    Hair Elegance : Elevate your haircare routine with the nurturing touch of Organix Mantra Lavender Oil. It's known for promoting a healthy scalp and enhancing the natural shine and luster of your locks, leaving your hair brilliantly beautiful.
+    Refresh and Revitalize : Rediscover your inner beauty with Lavender Oil. Its rejuvenating qualities may help you maintain a fresh and revitalized appearance, ensuring you always look your best.
+    Serene Face : Organix Mantra Lavender Oil is cherished for its soothing effects on the skin. Add it to your daily routine for a serene and even-toned complexion, exuding natural grace.`,
+    netQuantity: 15,
+    quantityUnit: QuantityUnit.Milliliters,
+    totalStock: 100,
+
+    // Categorization and Additional Features
+    category: ProductCategory.Beauty,
+    features: ["Lavender", "Undiluted", "Aromatherapy"],
+
+    //  // Weight and Dimensions
+    //  weight?: ProductUnit;
+    //  dimensions?: { length: number; width?: number; height: number };
+
+    //  // Sizes Information
+    //  sizes?: ProductSizes[];
+  },
+  {
+    // Basic Information
+    id: "6",
+    name: "Earth N Pure Sandalwood Essential Oil (Chandan Oil) 100% Pure, Natural & Therapeutic Grade -Bright, Clean, Flawless Skin, Diffusers, Soap Making, Lotion, Home Scents, Linen Spray, Bath Bombs (50 Ml)",
+    brand: "Organix Mantra",
+    price: 699,
+    images: [
+      "https://m.media-amazon.com/images/I/412IWIGwGlL._SX300_SY300_QL70_FMwebp_.jpg",
+      "https://m.media-amazon.com/images/I/712D6-ZVLZL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/71mx+b91djL._SL1083_.jpg",
+      "https://m.media-amazon.com/images/I/71FeYaKl1jL._SX679_.jpg",
+      "https://m.media-amazon.com/images/I/41PsiuqcG6L._SX679_.jpg",
+    ],
+
+    // Descriptive and Quantity-related Properties
+    description: `Earth N Pure, A WAY OF LIFE - We started Earth N Pure to share with our friends and family, and now with you, the joy and bliss of living a natural life. We want to help you understand that once you put your trust in nature, it can protect you, heal you and make you the best version of yourself.
+    IMPROVE HEALTH, WELLBEING AND LIFESTYLE- Our sandalwood Oil helps to calm nourish and sustain body and mind as it is filled up with nature’s goodness. It gets easily absorbed in the skin and can give that absorbing radiance and shine. Sandalwood Oil also easily gets immersed by the hair for a smoother and glossier look. It is a great ingredient for hand lotion, beauty products, hair products and other skincare products.
+    BODYCARE WITH SANDALWOOD OIL- Made with pure and undiluted Santalum album, DIY is just the next step. Make your own beauty and well-being products with Sandalwood Oil and other high quality ingredients from Earth N Pure. Discover recipes to create handmade soap, moisturizer, Sandalwood Oil face wash, and other loveliness products.
+    CLEANER AND HIGH-QUALITY AFFORDABLE OILS: At Earth N Pure our goal is to positively impact the lives of as many people as we possibly can, by selling such a high quality product at an affordable price. Be sure while purchasing Earth N Pure Sandalwood Oil as it is physically refined thus made more stable for extended shelf life.
+    CURING WITH ENVIRONMENT – Earth N Pure entire product range is made of handpicked raw materials. This is perfect for DIY cosmetic products, as it is Hexane free, Para-bens free, with no synthetic fragrances and artificial compounds that destruction the environment. Help heal nature as well as your body with Earth N Pure.
+    FDA APPROVED`,
+    netQuantity: 50,
+    quantityUnit: QuantityUnit.Milliliters,
+    totalStock: 100,
+
+    // Categorization and Additional Features
+    category: ProductCategory.Beauty,
+    features: ["Lavender", "Undiluted", "Aromatherapy"],
+
+    //  // Weight and Dimensions
+    //  weight?: ProductUnit;
+    //  dimensions?: { length: number; width?: number; height: number };
+
+    //  // Sizes Information
+    //  sizes?: ProductSizes[];
   },
 ];
-
-

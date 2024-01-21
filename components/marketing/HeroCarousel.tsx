@@ -24,11 +24,11 @@ export default function HeroCarousel() {
   return (
     <div className="w-full max-h-[40vh]">
       <Carousel
-        plugins={[
-          Autoplay({
-            delay: 2500,
-          }),
-        ]}
+        // plugins={[
+        //   Autoplay({
+        //     delay: 2500,
+        //   }),
+        // ]}
       >
         <CarouselContent>
           {bannerImages.map((image) => (
@@ -40,8 +40,8 @@ export default function HeroCarousel() {
                       src={!isMobile ? image.imageLarge : image.imageMobile}
                       alt="Hero"
                       fill
-                      objectPosition="center"
-                      objectFit="cover"
+                      priority
+                      className="object-cover"
                     />
                   )}
                 </Card>
